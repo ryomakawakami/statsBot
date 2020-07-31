@@ -19,8 +19,8 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase()
 
-    if (command == 'ping') {
-        message.channel.send('pong')
+    if (command == 'help') {
+        message.channel.send('>>> `!stats` to see your stats\n`!register [username]` to register your username')
     }
 
     if (command == 'stats') {
