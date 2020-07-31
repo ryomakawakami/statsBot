@@ -2,6 +2,8 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config({path:'.env'});
 }
 
+const reader = require('./reader')
+
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
@@ -19,6 +21,25 @@ client.on('message', message => {
 
     if (command == 'ping') {
         message.channel.send('pong')
+    }
+
+    if (command == 'stats') {
+        id = message.author.id;
+        message.channel.send('You\'re ' + reader.getUsername(id));
+    }
+
+    if (command == 'register') {
+        if (args.length != 1) {
+            message.channel.send('Syntax: !register [username]')
+        }
+        else {
+            if (reader.addUsername(message.author.id, args[0])) {
+                message.channel.send('Added!')
+            }
+            else {
+                message.channel.send('You\'re already registered!')
+            }
+        }
     }
 })
 
