@@ -26,7 +26,7 @@ function addUsername(id, username) {
         }
     }
 
-    fs.appendFile('accounts', id + ' ' + username, function (err) {
+    fs.appendFile('accounts', id + ' ' + username + '\n', function (err) {
         if (err) throw err;
     });
 
