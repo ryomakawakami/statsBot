@@ -42,8 +42,9 @@ client.on('message', message => {
             }
             request('https://api.hypixel.net/player?key=' + process.env.API_KEY + '&name=' + username, function(error, response, body) {
                 data = JSON.parse(body)
-                message.channel.send('Bedwars kills: ' + data.player.stats.Bedwars.kills_bedwars + '\n' +
-                    'Bedwars deaths: ' + data.player.stats.Bedwars.deaths_bedwars);
+                message.channel.send('Bedwars final kills: ' + data.player.stats.Bedwars.final_kills_bedwars + '\n' +
+                    'Bedwars final deaths: ' + data.player.stats.Bedwars.final_deaths_bedwars + '\n' +
+                    'Bedwars beds broken: ' + data.player.stats.Bedwars.beds_broken_bedwars);
             });
         }
         else {
