@@ -2,8 +2,9 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config({path:'.env'});
 }
 
-const reader = require('./reader')
+const reader = require('./reader');
 
+const request = require('request')
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
@@ -24,13 +25,29 @@ client.on('message', message => {
     }
 
     if (command == 'stats') {
-        id = message.author.id;
-        username = reader.getUsername(id);
-        if (reader.getUsername(id) == '-') {
-            message.channel.send('You\'re not registered. Register with `!register [username]`');
+        if (args.length <= 1) {
+            username = '';
+            // If !stats
+            if (args.length == 0) {
+                id = message.author.id;
+                username = reader.getUsername(id);
+                if (reader.getUsername(id) == '-') {
+                    message.channel.send('You\'re not registered. Register with `!register [username]`');
+                    return;
+                }
+            }
+            // If !stats [username]
+            else {
+                username = args[0];
+            }
+            request('https://api.hypixel.net/player?key=' + process.env.API_KEY + '&name=' + username, function(error, response, body) {
+                data = JSON.parse(body)
+                message.channel.send('Bedwars kills: ' + data.player.stats.Bedwars.kills_bedwars + '\n' +
+                    'Bedwars deaths: ' + data.player.stats.Bedwars.deaths_bedwars);
+            });
         }
         else {
-            message.channel.send('You\'re ' + username);
+            message.channel.send('Syntax: `!stats` or `!stats [username]`')
         }
     }
 
@@ -45,23 +62,6 @@ client.on('message', message => {
             else {
                 message.channel.send('You\'re already registered!')
             }
-        }
-    }
-
-    if (command == 'yes') {
-        if (message.author.id == 441397838824603649) {
-            message.channel.send('Yes');
-        }
-        else {
-            message.channel.send('No');
-        }
-    }
-    if (command == 'no') {
-        if (message.author.id == 441397838824603649) {
-            message.channel.send('No');
-        }
-        else {
-            message.channel.send('Yes');
         }
     }
 })
