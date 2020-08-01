@@ -25,7 +25,13 @@ client.on('message', message => {
 
     if (command == 'stats') {
         id = message.author.id;
-        message.channel.send('You\'re ' + reader.getUsername(id));
+        username = reader.getUsername(id);
+        if (reader.getUsername(id) == '-') {
+            message.channel.send('You\'re not registered. Register with `!register [username]`');
+        }
+        else {
+            message.channel.send('You\'re ' + username);
+        }
     }
 
     if (command == 'register') {
@@ -39,6 +45,23 @@ client.on('message', message => {
             else {
                 message.channel.send('You\'re already registered!')
             }
+        }
+    }
+
+    if (command == 'yes') {
+        if (message.author.id == 441397838824603649) {
+            message.channel.send('Yes');
+        }
+        else {
+            message.channel.send('No');
+        }
+    }
+    if (command == 'no') {
+        if (message.author.id == 441397838824603649) {
+            message.channel.send('No');
+        }
+        else {
+            message.channel.send('Yes');
         }
     }
 })

@@ -5,7 +5,6 @@ function getUsername(id) {
     var array = fs.readFileSync('accounts').toString().split("\n");
     for (i in array) {
         if (array[i].trim().length <= 1) {
-            console.log('OH NO')
             continue;
         }
         spl = array[i].split(' ');
